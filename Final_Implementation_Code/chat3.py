@@ -1,85 +1,100 @@
-from llama_index.core import Document, VectorStoreIndex, StorageContext, load_index_from_storage
+from llama_index.core import Document
 from llama_index.readers.apify import ApifyActor
+from llama_index.core import VectorStoreIndex, StorageContext, load_index_from_storage
 import os
 import openai
 import json
-import re
-import logging
-from dotenv import load_dotenv
 from llama_index.embeddings.openai import OpenAIEmbedding
-
-# Load env vars (from keys.env if you’re using that)
+from dotenv import load_dotenv
+import logging  # Added for logging
+from dotenv import load_dotenv
+import time
 load_dotenv("keys.env")
-
+# -----------------------------
 # Logging configuration (file + console)
+# -----------------------------
 logger = logging.getLogger("chatbot")
 logger.setLevel(logging.INFO)
 
+# File handler
 file_handler = logging.FileHandler("chatbot.log")
 file_handler.setLevel(logging.INFO)
-file_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(file_formatter)
 
+# Console handler
 console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
-console_formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+console_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 console_handler.setFormatter(console_formatter)
 
+# Add both handlers to logger
 logger.addHandler(file_handler)
 logger.addHandler(console_handler)
 
-# extra logger just for validation events
-validation_logger = logging.getLogger("validation")
-validation_logger.setLevel(logging.INFO)
-_validation_fh = logging.FileHandler("validation.log")
-_validation_fh.setFormatter(logging.Formatter("%(asctime)s - %(message)s"))
-validation_logger.addHandler(_validation_fh)
-
 logger.info("Chatbot started")
 
-# helper to check banned characters
-def _has_invalid_chars(s: str, banned: str = "![]<>@'/;") -> bool:
-    return any(c in s for c in banned)
+RATE_LIMIT_MAX_REQUESTS = 12 # Maximum requests allowed
+RATE_LIMIT_WINDOW_SECONDS = 60 # Time window in seconds
+COOLDOWN_SECONDS = 30 # Cooldown period in seconds
+
+request_timestamps = [] # List to track timestamps of requests
+blocked_until = 0.0  # Timestamp until which requests are blocked
+
+def check_rate_limit():
+    global request_timestamps, blocked_until
+
+    current_time = time.time() # Current timestamp
+
+    if current_time < blocked_until:
+        remaining_block_time = int(blocked_until - current_time) + 1 
+        logger.info(f"Rate limit exceeded. User is blocked for {remaining_block_time} more seconds.")
+        raise RuntimeError(f"Rate limit exceeded. Please wait {remaining_block_time} seconds before trying again.")
+    
+    # Remove timestamps outside the time window so that the chat
+    new_list = []
+    for timestamp in request_timestamps:
+        if current_time - timestamp < RATE_LIMIT_WINDOW_SECONDS:
+            new_list.append(timestamp)
+    
+    request_timestamps = new_list
+
+    #If we hit the limit, start the cooldown
+    if len(request_timestamps) >= RATE_LIMIT_MAX_REQUESTS:
+        blocked_until = current_time + COOLDOWN_SECONDS
+        logger.info(f"Rate limit exceeded. User is blocked for {COOLDOWN_SECONDS} seconds.")
+        raise RuntimeError(f"Rate limit exceeded. Please wait {COOLDOWN_SECONDS} seconds before trying again.")
+    # Record the new request timestamp
+    request_timestamps.append(current_time)
+
 
 def _validate_and_sanitize(user_input: str) -> str:
     if len(user_input) > 500:
-        validation_logger.info("blocked: >500 chars")
-        raise ValueError("Input exceeds 500 characters.")
+        logger.info("validation_block: Input exceeds 500 characters")
+        raise ValueError("Input exceeds 500 characters. Please shorten your question.")
 
-    if _has_invalid_chars(user_input):
-        validation_logger.info("blocked: invalid characters")
-        raise ValueError("Input contains invalid characters.")
+    if any(char in user_input for char in "![]<>@'\"/;"):
+        logger.info("validation_block: Invalid characters detected in input")
+        raise ValueError("Input contains invalid characters. Please remove them and try again.")
 
-    return user_input.strip()
+    return user_input.strip() 
+
+
 
 class Chatbot:
-    def __init__(self, config_file: str = "config.json"):
-        # env vars (support multiple names so you’re not stuck)
-        OPENAI_KEY = os.getenv("OPENAI_API_KEY") or os.getenv("OPENAI_APIKEY")
-        APIFY_TOKEN = (
-            os.getenv("APIFY_API_KEY")
-            or os.getenv("APIFY_API_TOKEN")
-            or os.getenv("APIFY")
-        )
+    def __init__(self, config_file="config.json"):
 
-        # if you’re using OpenAI anywhere directly
-        if OPENAI_KEY:
-            openai.api_key = OPENAI_KEY
+        load_dotenv()
+        API_KEY = os.getenv("OPENAI_APIKEY")
+        APIFY = os.getenv("APIFY")
 
-        # use a current embedding model (fallback if needed)
-        try:
-            embedding_model = OpenAIEmbedding(model="text-embedding-3-small")
-        except Exception:
-            embedding_model = OpenAIEmbedding(model="text-embedding-ada-002")
-
+        openai.api_key = API_KEY
+        embedding_model = OpenAIEmbedding(model="text-embedding-ada-002")
         PERSIST_DIR = "./storage_index"
 
         with open(config_file, "r") as f:
             config = json.load(f)
-        urls = config.get("websites", []) 
-        configured_urls = [url for url in urls if url.strip()]
-        urls = configured_urls
-    
+            urls = config.get("websites", [])
 
         logger.info(f"Loaded {len(urls)} websites from config file")
 
@@ -89,11 +104,7 @@ class Chatbot:
 
         if not os.path.exists(PERSIST_DIR):
             logger.info("Creating new index and scraping websites")
-            # If you don’t want live crawling, make sure storage_index exists first
-            if not APIFY_TOKEN:
-                raise ValueError("APIFY token not found. Set APIFY_API_KEY (or APIFY).")
-
-            reader = ApifyActor(APIFY_TOKEN)
+            reader = ApifyActor(APIFY)
             documents = reader.load_data(
                 actor_id="apify/website-content-crawler",
                 run_input={"startUrls": [{"url": url} for url in urls]},
@@ -119,13 +130,19 @@ class Chatbot:
         if question.lower() == "exit":
             logger.info("User exited the chatbot")
             return "Goodbye!"
+        
+        try:
+            check_rate_limit()
+        except RuntimeError as re:
+            logger.info(f"rate_limit_block: {re}")
+            return str(re)
 
         # Validate user input first
         try:
             clean_question = _validate_and_sanitize(question)
         except ValueError as ve:
             logger.info(f"validation_block: {ve}")
-            return f"{ve} (Please rephrase and try again.)"
+            return str(ve)
 
         # Build prompt and query
         try:
