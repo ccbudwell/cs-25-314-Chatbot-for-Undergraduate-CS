@@ -1,0 +1,6 @@
+.env
+*.env
+*.env.*
+keys.env
+*.key
+*.token
