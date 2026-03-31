@@ -1,0 +1,154 @@
+VCU Computer Science Chatbot Architecture
+
+Overview
+
+The chatbot was built as a retrieval-based system that uses web scraping, vector embeddings, and a language model to answer questions related to the VCU Computer Science department. Instead of relying on general knowledge, the chatbot is designed to pull information directly from official VCU sources, which helps keep responses more accurate and relevant.
+
+The system is split into two main parts: the backend, which handles all of the data processing and response generation, and the frontend, which is the chat interface that users interact with.
+
+---
+
+Backend Architecture
+
+Data Source Layer
+
+The chatbot uses a curated list of VCU-related websites stored in a configuration file. These include department pages, faculty listings, course bulletin pages, and program information.
+
+This was intentionally done so the chatbot only works with trusted and relevant data instead of scraping random sources. This helps reduce incorrect answers and keeps everything focused on VCU Computer Science.
+
+---
+
+Data Ingestion
+
+The chatbot collects data using a web scraping tool that goes through each URL in the configuration file and extracts the text content from those pages.
+
+Once the data is collected, it is stored as documents that the chatbot can later use for retrieval. This step basically builds the knowledge base of the system.
+
+---
+
+Document Processing and Chunking
+
+After scraping, the documents are broken down into smaller chunks. Each chunk represents a portion of the original content.
+
+This is important because smaller chunks make it easier for the chatbot to find relevant information when a user asks a question. If the chunks are too large, retrieval becomes less accurate.
+
+---
+
+Embedding and Indexing
+
+Each chunk of text is converted into a numerical representation called an embedding using an embedding model. These embeddings are then stored in a vector index.
+
+The vector index allows the chatbot to quickly compare a user’s question with all stored data and find the most relevant pieces of information. The index is saved locally so it does not need to be rebuilt every time the chatbot runs.
+
+---
+
+Query Processing
+
+When a user enters a question, the chatbot converts the input into an embedding and compares it against the vector index.
+
+The system retrieves the most similar chunks based on similarity scores. This step ensures that the chatbot is using relevant context instead of guessing or generating random answers.
+
+---
+
+Response Generation
+
+Once the relevant chunks are retrieved, they are passed into a language model, which generates the final response.
+
+The chatbot is designed to answer based on the retrieved information. If no relevant data is found, it returns a fallback response instead of making something up. This helps reduce hallucinations.
+
+---
+
+Logging and Monitoring
+
+The chatbot includes a logging system that records user queries, responses, and any errors. This helps with debugging and understanding how the chatbot is being used.
+
+Logging also makes it easier to identify where the chatbot is giving incorrect answers and needs improvement.
+
+---
+
+Frontend Architecture
+
+Overview
+
+The frontend is a simple chat interface built using JavaScript and CSS. It allows users to interact with the chatbot in real time through a browser.
+
+The frontend communicates with the backend using WebSockets, which allows messages to be sent and received instantly.
+
+---
+
+WebSocket Connection
+
+The frontend creates a WebSocket connection to the backend server. This keeps an open connection so messages can be sent and received without refreshing the page.
+
+This is important for making the chatbot feel responsive and interactive.
+
+---
+
+Message Handling
+
+When the user types a message, it is captured from the input field and displayed in the chat interface. The message is then sent to the backend through the WebSocket.
+
+Once the backend processes the request, the response is sent back and displayed in the chat.
+
+---
+
+User Interface Rendering
+
+Messages are dynamically added to the chat window using JavaScript. User messages and bot responses are styled differently so the conversation is easy to follow.
+
+This improves readability and overall user experience.
+
+---
+
+Chat Toggle System
+
+The chatbox can be opened and closed using a toggle feature. This allows the chatbot to stay hidden when not in use and keeps the interface clean.
+
+---
+
+Styling and Layout
+
+The frontend uses CSS to handle layout and styling. The chatbox is fixed to the bottom corner of the screen, includes a scrollable message area, and uses different colors for user and bot messages.
+
+This creates a simple but functional UI.
+
+---
+
+System Flow
+
+1. The user enters a question in the chat interface  
+2. The frontend sends the message to the backend using WebSocket  
+3. The backend receives the query  
+4. The query is converted into an embedding  
+5. The system retrieves the most relevant document chunks  
+6. The language model generates a response  
+7. The response is sent back to the frontend  
+8. The frontend displays the response  
+
+---
+
+Limitations
+
+The chatbot currently has a few limitations. It does not handle course-specific questions very well because there is no structured dataset for courses. The index also does not automatically update when new data is added.
+
+In addition, the chatbot has limited understanding of different ways users might phrase the same question, and it does not currently show sources for its answers.
+
+---
+
+Next Steps
+
+The next steps for improving the chatbot would be to add structured data for courses, including descriptions and prerequisites. This would significantly improve accuracy for academic-related questions.
+
+Another improvement would be adding source attribution so users can see where the information is coming from. The system should also include a way to refresh or rebuild the index when new data is added.
+
+On the frontend side, adding loading indicators and improving the overall UI would make the chatbot easier to use.
+
+Finally, the chatbot could be deployed and integrated into the VCU Engineering website so students can use it directly.
+
+---
+
+Conclusion
+
+The chatbot is a working prototype that shows how a retrieval-based system can be used to answer domain-specific questions. While it is functional, there is still room for improvement in accuracy, usability, and scalability.
+
+The way the system is structured makes it easy for future teams to build on top of it and continue development.

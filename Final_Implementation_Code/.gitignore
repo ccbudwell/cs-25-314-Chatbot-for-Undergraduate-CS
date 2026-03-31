@@ -1,0 +1,16 @@
+# Environment / API keys
+.env
+keys.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs
+chatbot.log
+
+# Vector storage (big + unnecessary)
+storage_index/
+
+# Mac files
+.DS_Store

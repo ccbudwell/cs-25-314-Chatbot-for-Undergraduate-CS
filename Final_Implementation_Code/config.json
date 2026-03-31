@@ -1,21 +1,93 @@
 {
-    "websites": [
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs-concentration-cybersecurity/",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs/",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs/#degreerequirementstext",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs/#planofstudytext",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs/#acceleratedbsandmstext",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs-concentration-cybersecurity/#degreerequirementstext",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs-concentration-cybersecurity/#planofstudytext",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs-concentration-data-science/",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs-concentration-data-science/#degreerequirementstext",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs-concentration-data-science/#planofstudytext",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs-concentration-software-engineering/",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs-concentration-software-engineering/#degreerequirementstext",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs-concentration-software-engineering/#planofstudytext",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-minor/",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/cybersecurity-minor/",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/data-science-minor/",
-        "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/software-engineering-minor/"
-    ]
+  "websites": [
+
+    "https://egr.vcu.edu/departments/computer-science/",
+    "https://egr.vcu.edu/departments/computer-science/about/",
+    "https://egr.vcu.edu/departments/computer-science/about/mission-vision/",
+    "https://egr.vcu.edu/departments/computer-science/about/objectives-outcomes/",
+    "https://egr.vcu.edu/departments/computer-science/about/staff/",
+    "https://egr.vcu.edu/departments/computer-science/about/advisory-board/",
+
+    "https://egr.vcu.edu/departments/computer-science/people/",
+    "https://egr.vcu.edu/departments/computer-science/people/faculty/",
+    "https://egr.vcu.edu/departments/computer-science/people/adjunct-staff/",
+    "https://egr.vcu.edu/departments/computer-science/people/professors-emeriti/",
+
+    "https://egr.vcu.edu/departments/computer-science/engage/student-groups/",
+    "https://egr.vcu.edu/departments/computer-science/engage/undergraduate-opportunities/",
+    "https://egr.vcu.edu/engage/industry-partnerships/",
+
+    "https://egr.vcu.edu/departments/computer-science/research/",
+    "https://egr.vcu.edu/departments/computer-science/research/research-clusters/",
+    "https://egr.vcu.edu/departments/computer-science/research/research-labs/",
+    "https://egr.vcu.edu/departments/computer-science/research/speaker-series/",
+
+    "https://egr.vcu.edu/departments/computer-science/academics/",
+    "https://egr.vcu.edu/departments/computer-science/academics/undergraduate/",
+    "https://egr.vcu.edu/departments/computer-science/academics/graduate/",
+    "https://egr.vcu.edu/departments/computer-science/academics/cs-fundamentals/",
+    "https://egr.vcu.edu/departments/computer-science/academics/dahlgren/",
+
+    "https://egr.vcu.edu/future-students/first-year/undergraduate-degrees/cybersecurity-bachelors/",
+    "https://egr.vcu.edu/future-students/first-year/undergraduate-degrees/data-science-bachelors/",
+    "https://egr.vcu.edu/future-students/first-year/undergraduate-degrees/software-engineering-bachelors/",
+    "https://egr.vcu.edu/future-students/first-year/undergraduate-degrees/computer-science-bachelor-of-arts/",
+    "https://egr.vcu.edu/future-students/first-year/undergraduate-degrees/computer-science-bachelor-of-arts/faq/",
+    "https://egr.vcu.edu/future-students/first-year/undergraduate-degrees/computer-science-bachelors/",
+
+    "https://egr.vcu.edu/departments/computer-science/news/",
+    "https://egr.vcu.edu/departments/computer-science/events/",
+
+    "https://www.vcu.edu/programs/",
+    "https://www.vcu.edu/programs/undergraduate/",
+    "https://www.vcu.edu/programs/graduate/",
+
+    "https://egr.vcu.edu/current-students/",
+    "https://egr.vcu.edu/current-students/student-services/undergraduate/",
+    "https://egr.vcu.edu/careers/",
+    "https://egr.vcu.edu/research/",
+
+    "https://student-tech.vcu.edu/hardware/computer-labs/",
+
+    "https://bulletin.vcu.edu/azcourses/cmsc/",
+    "https://bulletin.vcu.edu/azcourses/info/",
+    "https://bulletin.vcu.edu/azcourses/ciss/",
+    "https://bulletin.vcu.edu/azcourses/math/",
+    "https://bulletin.vcu.edu/azcourses/stat/",
+    "https://bulletin.vcu.edu/azcourses/egre/",
+
+    "https://bulletin.vcu.edu/undergraduate/engineering/",
+    "https://bulletin.vcu.edu/graduate/school-engineering/computer-science/",
+
+    "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/",
+    "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-bs/",
+    "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-ba/",
+    "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/computer-science-minor/",
+    "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/cybersecurity-minor/",
+    "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/data-science-minor/",
+    "https://bulletin.vcu.edu/undergraduate/engineering/computer-science/software-engineering-minor/",
+
+    "https://bulletin.vcu.edu/undergraduate/engineering/artificial-intelligence-minor/",
+
+    "https://bulletin.vcu.edu/graduate/school-engineering/computer-science/computer-science-phd/",
+
+    "https://bulletin.vcu.edu/graduate/school-engineering/computer-science/cybersecurity-certificate/",
+
+    "https://cybersecurity.vcu.edu/",
+    "https://cybersecurity.vcu.edu/focus-areas/",
+    "https://cybersecurity.vcu.edu/cybersecurity-awareness/",
+    "https://cybersecurity.vcu.edu/education/",
+    "https://cybersecurity.vcu.edu/regional-hub/",
+    "https://cybersecurity.vcu.edu/people/advisory-board/",
+    "https://cybersecurity.vcu.edu/outreach/",
+    "https://cybersecurity.vcu.edu/events/seminar-series/",
+    "https://cybersecurity.vcu.edu/news/",
+
+    "https://aiguidebook.vcu.edu/",
+    "https://aiguidebook.vcu.edu/programs-courses/",
+    "https://aiguidebook.vcu.edu/tools/",
+    "https://aiguidebook.vcu.edu/backstory/",
+
+    "https://bulletin.vcu.edu/undergraduate/university-college/practical-ai-minor/"
+  ]
 }
