@@ -6,21 +6,23 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import requests
 
-import os
 import json
 import openai
 from dotenv import load_dotenv
+import os
 
+env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "keys.env")
+load_dotenv(env_path)
+
+# Optional debug
+print("DEBUG KEY:", os.getenv("OPENAI_API_KEY"))
 
 class Chatbot:
 
     def __init__(self, config_file="config.json"):
-        
-        #Load .env file for API key
-        load_dotenv(".env")
 
         #Get API key from environment variable
-        API_KEY = os.getenv("OPENAI_APIKEY")
+        API_KEY = os.getenv("OPENAI_API_KEY")
         openai.api_key = API_KEY
 
         #Choose what embedding model to use 
