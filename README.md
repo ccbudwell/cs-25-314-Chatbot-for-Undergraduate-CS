@@ -1,71 +1,69 @@
-# VCU Computer Science Chatbot
+# Project Overview
+The project is a chatbot designed for the VCU Computer Science Department website. The goal of the chatbot is to help user find accurate information about topics such as:
+- Degree Programs
+- Courses
+- Department Resources
+- General CS-related Information
 
-## Overview
+The chatbot works by:
+1. Scraping official VCU websites for relevant information
+2. Processing and storing the data using vector embeddings
+3. Answering user questions by searching through that indexed data
 
-This project is a chatbot designed to answer questions related to the VCU Computer Science department. The chatbot uses a retrieval-based approach, combining web scraping, vector embeddings, and a language model to generate responses based on official VCU sources.
+The system is built using:
+- Python for backend logic
+- FastAPI for the web server and API endpoints
+- LlamaIndex + OpenAI embeddings for semantic search
+- Web scraping tools (Beautiful Soup, requests, pandas) for data collection
+- WebSockets for real-time chat functionality
 
-The goal is to provide accurate and relevant answers to student questions such as course information, program details, and department resources.
+Overall, the chatbot aims to provide a fast and reliable way for students to acess important CS department information.
 
----
+# Challenges & Solutions
 
-## Features
+## Main Challenge
+One of the biggest challenges we faced during this project was that the chatbot did not always provide accurate
+and complete answers. After investigating the issue, we determined the root cause was incomplete web scraping.
+The chatbot relies heavily on scraped data to build its knowledge base, and if important content is missing,
+the responses become unreliable or partially correct.
 
-- Retrieval-based chatbot using VCU data
-- Web scraping of official department pages
-- Vector search using embeddings for context retrieval
-- Real-time chat interface using WebSockets
-- Logging for debugging and monitoring
+# Solutions Implemented
+To address this issue, we explored multiple approaches:
 
----
+1. Improved Scaping Visibilty (Apify)
+We created an account with Apify, which allowed us to better monitor and track scraping process. This 
+helped us understand:
+- Which pages were being scraped successfully
+- Where data was missing or incomplete
+- How much content was actually being collected
+This step was important for diagnosing the problem rather than just guessing
 
-## How It Works
+2. Evaluated Alternative Scrapers
+We looked into other web scraping tools and services that could potentially improve data collection.
+However, most of the reliable options were too expensive for our project's constraints, so we decided
+not to persue them any further.
 
-1. User sends a message through the chat interface  
-2. The message is sent to the backend via WebSocket  
-3. The backend converts the query into an embedding  
-4. Relevant content is retrieved from the vector index  
-5. A response is generated using the retrieved context  
-6. The response is sent back and displayed  
+3. Optimized Chatbot Processing (chat3.py)
+Since improving the scraper itself was limited, we shifted focus to how the chatbot uses the available data.
 
----
+We updated chat3.py to:
+- Better structure and combine scraped content
+- Improve how tables and page data are converted into readable text
+- Strengthen prompt instructions to reduce incorrect answers
+These improvements made the chatbot more efficient when working with imperfect data
 
-## Setup
+4. Expanded Data Sources
+We added more VCU related links to the "config.json" file. This allowed the chatbot to:
+- Access a wider range of information
+- Improve coverage of topics
+- Reduce missing answers due to lack of data
 
-Install dependencies:
+# Current Performance
+After implementing these improvements, the chatbot is now approximately:
+- 70-80% accurate
 
-pip install torch torchvision llama-index openai apify-client
-
-Create a file called:
-
-keys.env
-
-Add your API keys:
-
-OPENAI_API_KEY=your_key_here  
-APIFY_API_KEY=your_key_here  
-
-Run the chatbot:
-
-python main.py
-
----
-
-## Notes
-
-- Do not upload keys.env to GitHub  
-- storage_index/ and chatbot.log should not be committed  
-- The chatbot may have limited accuracy for course-specific questions  
-
----
-
-## Future Improvements
-
-- Add structured course data  
-- Improve query understanding  
-- Add source attribution  
-- Improve UI and deploy the system  
-
----
+While this is a significant improvement from ealier versions, it is still below the 95% accuracy requirement
+needed for deployment on the official VCU website.
 
 ## Team Members
 
