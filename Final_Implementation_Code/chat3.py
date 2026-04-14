@@ -184,14 +184,16 @@ Images on Page:
             try:
                 
                 output += "\nTable Summary:\n"
-                #For each column in the table, extract the column name and a sample of values from that column (up to 5 values) 
-                # and format this information into a readable summary that describes the contents of the table in natural language.
+
+                # For each column in the table, extract the column name and all values from that column
+                # and format this information into a readable summary that describes the contents of the table in natural language. ###
                 for col in table.columns:
                     values = table[col].astype(str).tolist()
 
-                    output += f"{col} includes values such as {', '.join(values[:5])}. "
+                    output += f"{col} includes values such as {', '.join(values)}. "
 
                 output += "\n"
+                
             #Skip any table that causes an error during processing and continue to the next table without 
             #interrupting the overall flow of the program.
             except:
