@@ -15,6 +15,47 @@
   - Uses .css for the design of the visual and user experience portion on the website.
     
 **All code for this project is in the Final_Implementation_Code folder**
+Dave Duncan- i just increased the chatbots intelligence by like 30% id say it sits around a 60/70% effectiveness heres the workflow that i set up
+VCU Websites
+      │
+      ▼
+Web Scraping
+(requests + BeautifulSoup)
+      │
+      ▼
+Extract
+• Text
+• Tables
+• Images
+      │
+      ▼
+Tables → Natural Language
+      │
+      ▼
+Create Documents
+      │
+      ▼
+OpenAI Embeddings
+(text-embedding-3-large)
+      │
+      ▼
+Vector Database
+(LlamaIndex)
+      │
+      ▼
+User Question
+      │
+      ▼
+Vector Search
+      │
+      ▼
+LLM Generates Answer
+      │
+      ▼
+Chatbot Response
+this workflow takes out apify webscraper entirely reducing the cost of the project to just openai
+it uses requests + BeautifulSoup + pandas to extract text tables and images from each of the urls. after it combines all the information into one document which is then injested into the vector database and the images has its own DB. these are used to answer the questions ask DR.budwell for rubric from 2026s team discord for testing rubric for evaluation. this is just example of how to evaluate it you need to create another one to increase the understanding of the chatbots performance.
+
 
 
 
